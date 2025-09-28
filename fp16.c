@@ -37,6 +37,7 @@ typedef uint16_t fp16_t;
 fp16_t FP16(const float * const restrict x);
 float float_from_fp16(const fp16_t  * const restrict x);
  void print_fp16(const fp16_t * const restrict x);
+ fp16_t FP16_Mul(fp16_t x, fp16_t y);
  //STATIC HELPER FUNCTION  PROTOTYPES -> COMMENTS AT FUNCTION DECLARATION
 
 static inline void fp16_decompose(const fp16_t  * const restrict x, int * const restrict sign, int * const restrict exponent, uint16_t * const restrict mant);
@@ -52,10 +53,19 @@ static inline fp16_t fp32_parts_tofp16(const uint8_t * const restrict sign_bit, 
  */
 int main(void){
     float x = -5.7525; 
+    float y = x;
      printf("float is %f\r\n",x);
     fp16_t half_x = FP16(&x);
    
      print_fp16(&half_x);
+
+     float value = x * y;
+     printf("Multiplication: %f\n", value);
+
+     fp16_t value_1 = FP16(&x);
+     fp16_t value_2 = FP16(&y);
+     fp16_t value_3 = FP16_Mul(value_1,value_2);
+     print_fp16(&value_3);
    
 }
 
@@ -132,6 +142,26 @@ return;
 //  printf("\r\n END OF PRINT\r\n");
 }
 
+fp16_t FP16_Mul(fp16_t x, fp16_t y)
+{
+
+    int x_sign;
+    int x_exponent;
+    uint16_t x_mant;
+    fp16_decompose(&x, &x_sign, &x_exponent, &x_mant);
+
+    int y_sign;
+    int y_exponent;
+    uint16_t y_mant;
+    fp16_decompose(&y, &y_sign, &y_exponent, &y_mant);
+
+    uint8_t result_sign = (((x_sign) * (y_sign)) < 0) ? 1 : 0;
+    int result_exponent = (x_exponent) + (y_exponent) + FP16_BIAS;
+    uint32_t result_mant = ((x_mant) * (y_mant)) >> FP16_SIZE_OF_MANT;
+
+    return (result_sign << FP16_SIGN_OFFSET) | (result_exponent << FP16_EXP_OFFSET) | result_mant;
+
+}
 
 /**************
  * INLINE HELPER FUNCTIONS
