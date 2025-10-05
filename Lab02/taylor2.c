@@ -21,7 +21,7 @@ double t_sigmoid(double in)
 
 double t_tanh(double in)
 {
-    // idk? Just return 0? 
+    return in - ((1.0 / 3.0) * pow(in,3) );
 }
 
 
@@ -31,13 +31,17 @@ int main(void)
 
     double in[3] = {-1.0, 0.0, 1.0}; //imguessig u mean inputs??
     double sig_out[3] = {0}, tanh_out[3] = {0};
+    double actual_sig_out[3] = {0}, actual_tanh_out[3] = {0};
 
     //taylor sigmoid
-    for(uint8_t i = 0;i < )
+    for(uint8_t i = 0;i < 3; i++)
     {
         sig_out[i] = t_sigmoid(in[i]);
         tanh_out[i] = t_tanh(in[i]);
-        printf("Input: %d, Sigmoid: %d, Tanh: %d\r\n",in[i],sig_out[i],tanh_out[i]);
+        actual_sig_out[i] = exact_sigmoid(in[i]);
+        actual_tanh_out[i] = exact_tanh(in[i]);
+        
+        printf("Input: %f\n Sigmoid |  Actual: %f Approximation: %f \n Tanh |  Actual: %f Approximation: %f \n\n", in[i], actual_sig_out[i], sig_out[i], actual_tanh_out[i], tanh_out[i]);
 
         //
         //I want pretty outputs
