@@ -13,7 +13,7 @@ double exact_tanh(double x)
 }
 
 
-//finding T_Sigmoid around 0 or more acc.
+//finding T_Sigmoid around 0 for more acc.
 double t_sigmoid(double in)
 {
     return 0.5 + 0.25 * in;
@@ -29,7 +29,7 @@ int main(void)
 {
     //declare vars
 
-    double in[3] = {-1.0, 0.0, 1.0}; //imguessig u mean inputs??
+    double in[3] = {-1.0, 0.0, 1.0}; //inputs
     double sig_out[3] = {0}, tanh_out[3] = {0};
     double actual_sig_out[3] = {0}, actual_tanh_out[3] = {0};
 
@@ -43,16 +43,7 @@ int main(void)
         
         printf("Input: %f\n Sigmoid |  Actual: %f Approximation: %f \n Tanh |  Actual: %f Approximation: %f \n\n", in[i], actual_sig_out[i], sig_out[i], actual_tanh_out[i], tanh_out[i]);
 
-        //
-        //I want pretty outputs
-        //printf("For Input: %f\n", something);
-        //printf("Sigmoid:  Taylor: %f | Exact: %f\n", something, something);
-        //printf("Tanh:     Taylor: %f | Exact: %f\n\n", honey, bunney);
-        //
     }
-
-//taylor tanh
-
 
 }
 
